@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Page</title>
+  <meta name="color-scheme" content="dark">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    :root{ --neon:#1aff00; }
+    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; }
+  </style>
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center p-4">
+
+  <main class="bg-[#0a0a0a]/80 border border-[color:rgb(26,255,0)/.3] rounded-2xl shadow-xl w-full max-w-lg">
+    <header class="text-center px-8 pt-8">
+      <h1 class="text-3xl font-extrabold text-[var(--neon)] drop-shadow-lg"
+          style="font-family: 'Orbitron', sans-serif;">
+        Complete Your Payment
+      </h1>
+      <p id="payCourse" class="mt-3 text-xl font-semibold text-gray-200">Selected Course</p>
+      <p id="payPrice" class="text-2xl font-bold text-[var(--neon)] mt-1">₹0</p>
+    </header>
+
+    <section class="px-8 pt-6">
+      <label class="block text-gray-300 text-lg font-semibold mb-3">Choose Payment Method:</label>
+      <select id="paymentMethod"
+              class="w-full p-3 rounded-xl bg-black border border-gray-700 text-gray-200 focus:outline-none focus:border-[var(--neon)]"
+              onchange="toggleMethod()">
+        <option value="qr">QR</option>
+        <option value="upi">UPI ID</option>
+      </select>
+
+      <!-- QR -->
+      <div id="qrSection" class="mt-6">
+        <p class="text-gray-300 mb-2">Scan this QR to Pay:</p>
+        <div class="flex justify-center">
+          <!-- replace with your image path -->
+          <img src="qr.jpg" alt="UPI QR"
+               class="w-48 h-48 rounded-xl border border-[color:rgb(26,255,0)/.4] shadow-md object-cover">
+        </div>
+      </div>
+
+      <!-- UPI -->
+      <div id="upiSection" class="mt-6 hidden">
+        <p class="text-gray-300 mb-2">Pay on this UPI:</p>
+        <div class="flex items-center justify-between bg-black border border-gray-700 rounded-xl px-4 py-3">
+          <span id="upiId" class="text-[var(--neon)] font-semibold">flench@ptyes</span>
+          <button type="button" onclick="copyUPI()"
+                  class="bg-[var(--neon)] text-black px-4 py-1 rounded-lg hover:opacity-90 transition">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Telegram username -->
+      <div class="mt-6">
+        <label for="usernameInput" class="block text-gray-300 mb-2 font-medium">
+          Telegram username (without @)
+        </label>
+        <div class="flex items-center gap-3">
+          <div class="flex-1">
+            <input id="usernameInput" type="text" inputmode="text" autocomplete="off"
+                   placeholder="e.g. flench_123"
+                   class="w-full p-3 rounded-xl bg-black border border-gray-700 text-gray-200 focus:outline-none focus:border-[var(--neon)] transition"/>
+          </div>
+          <span id="usernameStatus" class="text-sm"></span>
+        </div>
+        <p id="usernameHelp" class="mt-2 text-xs text-gray-500">
+          3–32 characters. Letters, numbers, underscores only. Don’t include “@”.
+        </p>
+      </div>
+
+      <!-- Transaction Ref (12 digits demo) -->
+      <div class="mt-6">
+        <label class="block text-gray-300 mb-2 font-medium">Enter UTR Number:</label>
+        <input id="utrInput" type="text" inputmode="numeric" maxlength="12"
+               class="w-full p-3 rounded-xl bg-black border border-gray-700 text-gray-200 focus:outline-none focus:border-[var(--neon)]"
+               placeholder="Enter your 12-digit reference"/>
+      </div>
+
+     <button type="button" onclick="submitUTR()"
+        class="mt-6 w-full py-3 bg-[var(--neon)] hover:opacity-90 text-black font-bold rounded-xl shadow-md transition">
+  Submit
+</button>
+
+
+      <br><br>
+    </section>
+  </main>
+
+<script>
+
+  function submitUTR() {
+  const utr = document.getElementById("utrInput").value.trim();
+  const username = document.getElementById("usernameInput").value.trim();
+  const course = document.getElementById("payCourse").textContent;
+  const price = document.getElementById("payPrice").textContent;
+
+  if (!/^\d{12}$/.test(utr)) {
+    alert("UTR must be exactly 12 digits!");
+    return;
+  }
+  if (!username) {
+    alert("Please enter your Telegram username!");
+    return;
+  }
+
+  const BOT_TOKEN = "7551435029:AAEpPKale-DVWdR_8IkIb-g7qO7c0m7ufFI";
+  const CHAT_ID = "6107187366";
+
+  const message = `📢 New Payment Submission\n\n💳 Course: ${course}\n💰 Price: ${price}\n👤 Telegram: @${username}\n🆔 UTR: ${utr}`;
+
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: CHAT_ID,
+      text: message,
+      parse_mode: "Markdown"
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        alert("UTR Submitted Successfully ✅");
+        window.location.href = "https://t.me/flenchx";
+      } else {
+        alert("Error sending message to admin");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error! Failed to notify admin.");
+    });
+}
+
+
+
+</script>
+
+
+  <script>
+    // ---------- URL → title/price ----------
+    (function initCourse(){
+      const params = new URLSearchParams(window.location.search);
+      const title = params.get("title");
+      const price = params.get("price"); // expect a number string
+
+      document.getElementById("payCourse").textContent = title || "Selected Course";
+
+      if (price && !Number.isNaN(Number(price))) {
+        const formatted = new Intl.NumberFormat("en-IN", { style:"currency", currency:"INR", maximumFractionDigits:0 })
+          .format(Number(price));
+        document.getElementById("payPrice").textContent = formatted;
+      } else {
+        document.getElementById("payPrice").textContent = "₹0";
+      }
+    })();
+
+    // ---------- Method toggle ----------
+    function toggleMethod(){
+      const m = document.getElementById("paymentMethod").value;
+      document.getElementById("qrSection").classList.toggle("hidden", m !== "qr");
+      document.getElementById("upiSection").classList.toggle("hidden", m !== "upi");
+    }
+
+    // ---------- Copy UPI ----------
+    function copyUPI(){
+      const upi = document.getElementById("upiId").textContent.trim();
+      navigator.clipboard.writeText(upi);
+      Swal.fire({ icon:'success', title:'UPI ID Copied!', text: upi, confirmButtonColor:'#1aff00' });
+    }
+
+    // ---------- Username validation ----------
+    const $username = document.getElementById("usernameInput");
+    const $status   = document.getElementById("usernameStatus");
+    const $help     = document.getElementById("usernameHelp");
+
+    function validateUsername(v){ return /^[A-Za-z0-9_]{3,32}$/.test(v); }
+
+    function showUsernameValidity(ok){
+      if(ok){
+        $username.classList.remove("border-red-500");
+        $username.classList.add("border-[var(--neon)]");
+        $status.textContent = "Looks good";
+        $status.className = "text-sm text-[var(--neon)]";
+        $help.className = "mt-2 text-xs text-gray-500";
+      }else{
+        $username.classList.remove("border-[var(--neon)]");
+        $username.classList.add("border-red-500");
+        $status.textContent = "Invalid username";
+        $status.className = "text-sm text-red-400";
+        $help.className = "mt-2 text-xs text-red-400";
+      }
+    }
+
+    $username.addEventListener("input", ()=>{
+      const v = $username.value.trim().replace(/^@+/, "");
+      $username.value = v;
+      showUsernameValidity(validateUsername(v));
+    });
+
+    function getValidatedUsernameOrNull(){
+      const v = ($username.value||"").trim();
+      const ok = validateUsername(v);
+      showUsernameValidity(ok);
+      return ok ? v : null;
+    }
+
+  
+ const coursePrices = {
+      "Carding": 4000,
+      "CC Phishing": 3200,
+      "Crypto Draining": 6500,
+      "Cyber Security": 5500,
+      "BUNDLE — All Courses Included": 11999
+    };
+
+    // ✅ URL Params
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get("title");
+    const price = coursePrices[title];
+
+    // ✅ Show in Page
+    document.getElementById("payCourse").textContent = title || "Selected Course";
+    if (price) {
+      document.getElementById("payPrice").textContent = 
+        new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 })
+        .format(price);
+    }
+
+
+  </script>
+</body>
+</html>
+

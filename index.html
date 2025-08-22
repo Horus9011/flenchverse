@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flench Verse</title>
+
+  <!-- Fonts + Tailwind CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --neon-green: #00ff88;
+      --neon-cyan:  #00d1ff;
+      --glass: rgba(255,255,255,0.04);
+      --card-bg: rgba(255,255,255,0.02);
+    }
+    html,body{height:100%}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: #000;
+      color: #e9edf1;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* HERO background image - replace URL below with your skull/bg */
+    .hero {
+      background-image: url('background.jpeg'); /* <-- replace with path or hosted URL */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.66) 10%, rgba(0,0,0,0.92) 60%);
+      z-index:0;
+    }
+
+    /* Neon heading */
+    .neon-title{
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.12em;
+      color: var(--neon-green);
+      text-shadow:
+        0 0 6px rgba(0,255,136,0.18),
+        0 0 18px rgba(0,255,136,0.08),
+        0 0 36px rgba(0,210,255,0.04);
+    }
+
+    /* Pill buttons */
+    .pill{
+      border-radius: 999px;
+      padding: .9rem 2.2rem;
+      border-width: 2px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 0 16px rgba(255,255,255,0.02);
+    }
+    .pill.neon-green{
+      border-color: rgba(0,255,136,0.16);
+      color: var(--neon-green);
+      box-shadow: 0 10px 40px rgba(0,255,136,0.03), 0 0 18px rgba(0,255,136,0.04);
+    }
+    .pill.neon-green:hover{
+      background: rgba(0,255,136,0.06);
+      color: #000;
+    }
+    .pill.neon-cyan{
+      border-color: rgba(0,209,255,0.12);
+      color: var(--neon-cyan);
+    }
+    .pill.neon-cyan:hover{
+      background: rgba(0,209,255,0.06);
+      color:#000;
+    }
+
+    /* small neon arrow bounce */
+    .down-arrow { filter: drop-shadow(0 8px 28px rgba(0,255,136,0.06)); }
+
+    /* course card */
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 14px;
+    }
+
+    /* outline glow on hover for cards on desktop */
+    .card:hover { box-shadow: 0 20px 60px rgba(0,255,136,0.03); transform: translateY(-6px); transition: all .28s ease; }
+
+    /* responsive tweaks for fonts like the screenshots */
+    .mono-title { font-family: 'Orbitron', sans-serif; letter-spacing: .06em; }
+
+    @media (min-width: 880px){
+      .neon-title { position: relative; }
+      .neon-title::before{
+        content: attr(data-text);
+        position:absolute; left:2px; top:1px;
+        color: rgba(0,255,136,0.05);
+        filter: blur(6px);
+        z-index:-1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+
+  <!-- HERO -->
+  <header class="hero h-[82vh] md:h-screen flex items-center justify-center">
+    <div class="relative z-10 max-w-3xl w-full px-6 py-12 text-center">
+      <!-- Logo -->
+     
+
+      <h1 class="neon-title text-4xl md:text-6xl font-extrabold mono-title" data-text="FLENCH VERSE">FLENCH VERSE</h1>
+
+      <p class="mt-4 text-gray-300 max-w-2xl mx-auto text-sm md:text-lg">
+        Not for everyone — only for those who dare
+      </p>
+
+      <!-- Buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 sm:justify-center items-center">
+        <a href="#courses" class="pill neon-green inline-flex items-center justify-center text-sm md:text-base font-semibold">
+          <span class="mr-3">ENTER VAULT</span>
+        </a>
+
+        <a id="telegramBtnHero" href="https://t.me/flenchx" target="_blank" class="pill neon-cyan inline-flex items-center justify-center text-sm md:text-base font-semibold">
+          MESSAGE ON TELEGRAM
+        </a>
+      </div>
+
+      <!-- Down arrow -->
+      <div class="mt-8 flex justify-center">
+        <svg class="w-10 h-10 text-[var(--neon-green)] down-arrow animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY + PREMIUM -->
+  <section class="py-12 px-6 md:px-20 bg-black">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <!-- Why choose us -->
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-[var(--neon-green)]">Why Choose Flench Verse?</h3>
+        <p class="mt-3 text-gray-300 text-sm">Because we don’t teach what everyone else does — we bring you rare, powerful skills you won’t find anywhere else. At Flench Verse, you learn what others don’t even dare to offer.</p>
+        <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+          <li>Exclusive Knowledge: Skills and strategies you won’t find in mainstream courses — only here.</li>
+          <li>Practical Edge: Everything is designed to give you real-world advantage, not just theory.</li>
+          <li>Lifetime Growth: One-time access that keeps upgrading as we add new and rare content.</li>
+          
+        </ul>
+      </div>
+
+      <!-- Stats (center) -->
+      <div class="card p-6 text-center">
+        <div class="text-3xl md:text-5xl font-bold text-[var(--neon-green)]">300+</div>
+        <div class="mt-2 text-sm text-gray-400">Methods</div>
+
+        <div class="mt-6 text-3xl md:text-5xl font-bold text-[var(--neon-green)]">100%</div>
+        <div class="mt-1 text-sm text-gray-400">Anonymity Focus</div>
+
+        <div class="mt-6 text-3xl md:text-5xl font-bold text-[var(--neon-green)]">24/7</div>
+        <div class="mt-1 text-sm text-gray-400">Support</div>
+      </div>
+
+      <!-- Premium benefits -->
+      <div class="card p-6">
+        <h3 class="text-xl font-semibold text-[var(--neon-cyan)]">Premium Membership</h3>
+        <p class="mt-3 text-gray-300 text-sm">Go premium once, and unlock skills for a lifetime.</p>
+        <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+          <li>Go premium once, and unlock skills for a lifetime.</li>
+          <li>Lifetime Updates: Stay ahead with fresh, exclusive content added regularly.</li>
+          <li>Lifetime Updates: Stay ahead with fresh, exclusive content added regularly.</li>
+        </ul>
+        <div class="mt-6">
+          <a href="#premium" class="pill neon-cyan inline-flex items-center justify-center">LEARN MORE</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <main class="bg-black py-14 px-6 md:px-20">
+    <section id="courses" class="max-w-6xl mx-auto">
+      <h2 class="text-center text-3xl md:text-4xl font-bold neon-title mb-6">OUR COURSES</h2>
+      <p class="text-center text-gray-400 max-w-2xl mx-auto mb-10">Free content is never enough to master real skills. With one-time premium access, you learn for life — every update, every new thing.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Carding -->
+        <article class="card p-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-xl font-semibold text-[var(--neon-green)]">1. Carding</h3>
+              <p class="mt-2 text-gray-300 text-sm">Pre-Recorded & Live both sessions.</p>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-[var(--neon-green)]">₹4,000</div>
+              <div class="text-xs text-gray-400">~ $48.19 (approx)</div>
+            </div>
+          </div>
+
+          <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+            <li>Payment Gateway Bypass Method</li>
+            <li>PUBG / BGMI UC Carding</li>
+            <li>Flipkart / Amazon Carding</li>
+            <li>Blinkit Carding</li>
+            <li>Myntra Carding</li>
+            <li>Nakyaa Carding</li>
+            <li>Swiggy Carding</li>
+            <li>Zomato Carding</li>
+            <li>Zepto Carding</li>
+            <li>Giftcard Carding</li>
+            <li>Superchat Carding</li>
+            <li>Hotel / Flight Carding</li>
+            <li>OTP Bypass</li>
+          </ul>
+
+          <div class="mt-6 flex gap-3">
+            <a href="payment.html?title=Carding">
+<button 
+  class="pill neon-green js-buy" 
+  data-course="Carding" 
+  data-price="4,000">
+  GET ACCESS
+</button>
+</a>
+            <a href="https://t.me/flenchx" target="_blank" class="pill neon-cyan">ASK ADMIN</a>
+          </div>
+        </article>
+
+        <!-- Logs -->
+        <article class="card p-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-xl font-semibold text-[var(--neon-green)]">2. CC Phishing</h3>
+              <p class="mt-2 text-gray-300 text-sm">Pre-Recorded & Live both sessions.</p>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-[var(--neon-green)]">₹3,200</div>
+              <div class="text-xs text-gray-400">~ $36.75 (approx)</div>
+            </div>
+          </div>
+
+          <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+            <li>Fake Emails (Email Phishing)</li>
+            <li>SMS Phishing (SMS BOT) Access</li>
+            <li>Fake Call (OTP BOT) Access</li>
+            <li>Fake E-commerce Website / App (With Codes)</li>
+            <li>Free Wi-Fi Trap (Public Wi-Fi Phishing)</li>
+            <li>Malware / Trojan</li>
+            <li>Phishing via Social Media Ads / Links</li>
+          </ul>
+
+          <div class="mt-6 flex gap-3">
+   <a href="payment.html?title=CC%20Phishing">      
+  <button 
+  class="pill neon-green js-buy" 
+  data-course="CC Phishing" 
+  data-price="3,200">
+  GET ACCESS
+</button>
+</a>
+            <a href="https://t.me/flenchx" target="_blank" class="pill neon-cyan">ASK ADMIN</a>
+          </div>
+        </article>
+
+        <!-- Crypto -->
+        <article class="card p-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-xl font-semibold text-[var(--neon-green)]">3. Crypto Draining</h3>
+              <p class="mt-2 text-gray-300 text-sm">Pre-Recorded & Live both sessions.</p>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-[var(--neon-green)]">₹6,500</div>
+              <div class="text-xs text-gray-400">~ $78.31 (approx)</div>
+            </div>
+          </div>
+
+          <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+            <li></li>
+            <li>Making a Perfect Drainer Site</li>
+            <li>Making shopping Drainer Site</li>
+            <li>How to Trap Peoples</li>
+            <li>Hoe to Find Good Wallets</li>
+            <li>Multi Chain Drainer</li>
+            <li>Single Chain Drainer</li>
+            <li>How to Make clone sites Drainer</li>
+            <li>How to make attractive Templates</li>
+            <li><b>MUCH MORE</b></li>
+          </ul>
+
+          <div class="mt-6 flex gap-3">
+            <a href="payment.html?title=Crypto%20Draining">
+<button 
+  class="pill neon-green js-buy" 
+  data-course="Crypto Draining" 
+  data-price="6,500">
+  GET ACCESS
+</button>
+</a>
+            <a href="https://t.me/flenchx" target="_blank" class="pill neon-cyan">ASK ADMIN</a>
+          </div>
+        </article>
+
+        <!-- Scanning -->
+        <article class="card p-6">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-xl font-semibold text-[var(--neon-green)]">4. Cyber Security</h3>
+              <p class="mt-2 text-gray-300 text-sm">Pre-Recorded & Live both sessions.</p>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-[var(--neon-green)]">₹5,500</div>
+              <div class="text-xs text-gray-400">~ $66.27 (approx)</div>
+            </div>
+          </div>
+
+          <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+            <li>Data Protection & Privacy</li>
+            <li>Network Security</li>
+            <li>Application Security</li>
+            <li>Endpoint Security</li>
+            <li>Identity & Access Management (IAM)</li>
+            <li>Incident Response & Recovery</li>
+            <li>IP Spoofing</li>
+          </ul>
+
+          <div class="mt-6 flex gap-3">
+            
+<a href="payment.html?title=Cyber%20Security">
+<button 
+  class="pill neon-green js-buy" 
+  data-course="Cyber Security" 
+  data-price="5,500">
+  GET ACCESS
+</button>
+</a>
+
+            <a href="https://t.me/flenchx" target="_blank" class="pill neon-cyan">ASK ADMIN</a>
+          </div>
+        </article>
+
+        <!-- Bundle / All-in -->
+        <article class="card p-6 md:col-span-2">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-2xl font-semibold text-[var(--neon-cyan)]">BUNDLE — All Courses Included</h3>
+              <p class="mt-2 text-gray-300 text-sm">Every module, live sessions, recorded vault, private community and priority support.</p>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-bold text-[var(--neon-green)]">₹11,999</div>
+              <div class="text-xs text-gray-400">~ $144.57 (approx)</div>
+            </div>
+          </div>
+
+          <ul class="mt-4 ml-4 list-disc text-sm text-gray-300">
+            <li>All modules: Carding, CC Phishing, Crypto Draining, Cyber Security</li>
+            <li>Monthly live AMAs + project reviews</li>
+            <li>Lifetime access to future updates.</li>
+          </ul>
+
+          <div class="mt-6 flex gap-3">
+            <a href="payment.html?title=BUNDLE%20%E2%80%94%20All%20Courses%20Included">
+<button 
+  class="pill neon-cyan js-buy" 
+  data-course="BUNDLE — All Courses Included" 
+  data-price="11,999">
+  GET BUNDLE
+</button>
+</a>
+            <a href="https://t.me/flenchx" target="_blank" class="pill neon-green">ASK ADMIN</a>
+          </div>
+        </article>
+
+      </div>
+
+      
+    </section>
+  </main>
+
+  <!-- PREMIUM SECTION (details) -->
+  <section id="premium" class="py-12 px-6 md:px-20 bg-black/90">
+    <div class="max-w-4xl mx-auto text-center card p-8">
+      <h3 class="text-2xl md:text-3xl font-bold mono-title text-[var(--neon-cyan)]">Premium — Why join?</h3>
+      <p class="mt-4 text-gray-300">Free stuff gives basics, but not mastery. A single premium investment means lifelong growth and new skills anytime.</p>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 card">
+          <div class="text-lg font-bold text-[var(--neon-green)]">Exclusive Vault</div>
+          <div class="text-sm text-gray-300 mt-2">Private recorded videos & sessions</div>
+        </div>
+        <div class="p-4 card">
+          <div class="text-lg font-bold text-[var(--neon-green)]">Priority Support</div>
+          <div class="text-sm text-gray-300 mt-2">Faster response & access to exclusive bots</div>
+        </div>
+        <div class="p-4 card">
+          <div class="text-lg font-bold text-[var(--neon-green)]">Monthly AMAs</div>
+          <div class="text-sm text-gray-300 mt-2">Live sessions + community reviews</div>
+        </div>
+      </div>
+      </section>
+
+      <section class="bg-black text-center py-16 px-6">
+  <!-- Heading -->
+  <h2 class="text-3xl md:text-5xl font-bold text-green-400 mb-4">
+    JOIN OUR NETWORK
+  </h2>
+  <p class="text-gray-400 max-w-xl mx-auto mb-10">
+    Connect with us through our official channels to stay updated with the latest techniques and methods.
+  </p>
+
+  <!-- YouTube Card -->
+  <div class="bg-[#111] rounded-2xl shadow-lg p-8 max-w-md mx-auto mb-10">
+    <!-- YouTube Icon -->
+    <div class="flex justify-center mb-4">
+      <img src="youtube.png" 
+           alt="YouTube Logo" class="h-10" />
+    </div>
+    <!-- Title -->
+    <h3 class="text-white text-2xl font-semibold mb-2">YouTube Channel</h3>
+    <p class="text-gray-400 mb-6">
+      If you are not understanding anything, you can watch our detailed video here.
+    </p>
+    <!-- Button -->
+    <a href="#" class="inline-block bg-transparent border-2 border-green-400 text-green-400 px-6 py-2 rounded-full hover:bg-green-400 hover:text-black transition">
+      WATCH VIDEO
+    </a>
+  </div>
+
+  <!-- WhatsApp Card -->
+  <div class="bg-[#111] rounded-2xl shadow-lg p-8 max-w-md mx-auto">
+    <!-- WhatsApp Icon -->
+    <div class="flex justify-center mb-4">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
+           alt="WhatsApp Logo" class="h-10" />
+    </div>
+    <!-- Title -->
+    <h3 class="text-white text-2xl font-semibold mb-2">Join our WhatsApp</h3>
+    <p class="text-gray-400 mb-6">
+      Stay connected with us and never miss updates by joining our WhatsApp channel.
+    </p>
+    <!-- Button -->
+    <a href="https://whatsapp.com/channel/0029VbAWVna96H4Y9cuMG93T" target="_blank" class="inline-block bg-transparent border-2 border-green-400 text-green-400 px-6 py-2 rounded-full hover:bg-green-400 hover:text-black transition">
+      JOIN NOW
+    </a>
+  </div>
+</section>
+  <!-- Footer -->
+  <footer class="py-8 text-center text-sm text-gray-400">
+    <div class="max-w-4xl mx-auto px-4">
+      © <span id="yr"></span> Flench Verse — Private content & community • <a href="https://t.me/flenchx" target="_blank" class="text-[var(--neon-cyan)]">Telegram</a>
+    </div>
+  </footer>
+  <script>
+  document.querySelectorAll('.js-buy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const label = btn.dataset.label;
+      const price = btn.dataset.price;
+      // debug dekhne ke liye
+      console.log("Sending:", label, price);
+
+      window.location.href = `payment.html?title=${encodeURIComponent(label)}&price=${encodeURIComponent(price)}`;
+    });
+  });
+</script>
+</body>
+</html>
